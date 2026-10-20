@@ -37,6 +37,8 @@ def write_captures(df: pd.DataFrame, root: Path, log: EvidenceLog, limit: int) -
         path.write_text(html)
         log.append(path, obs_id=row.obs_id, property_id=row.property_id, source="synthetic_ota",
                    url=url, stay_date=row.stay_date, lead_days=int(row.lead_days),
+                   accessed_at_utc=(pd.Timestamp(row.stay_date, tz="UTC")
+                                    - pd.Timedelta(days=int(row.lead_days))).isoformat().replace("+00:00", "Z"),
                    capture_method="saved_html", price_displayed=float(row.nightly_rate_eur),
                    currency="EUR", collector="demo-script", notes=SYNTHETIC_LABEL)
 
